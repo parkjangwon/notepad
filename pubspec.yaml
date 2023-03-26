@@ -1,0 +1,28 @@
+name: notepad
+description: 간단한 메모장 앱
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0-204.0.dev <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  get: ^4.6.5                         # 상태 관리
+  flutter_secure_storage: ^8.0.0      # 기기 저장소
+  permission_handler: ^10.2.0         # 권한을 요청하고 확인을 도와주는 플러그인
+  sqflite: ^2.2.5
+  path: ^1.8.3
+  crypto: ^3.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
