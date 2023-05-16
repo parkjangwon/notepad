@@ -38,29 +38,32 @@ class MemoWrite extends GetView<MemoWriteController> {
               })
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          children: [
-            TextField(
-              onChanged: (String title) {
-                this.title = title;
-              },
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              decoration: InputDecoration(hintText: '제목을 입력하세요.'),
-            ),
-            Padding(padding: EdgeInsets.all(10)),
-            TextField(
-              onChanged: (String text) {
-                this.text = text;
-              },
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              decoration: InputDecoration(hintText: '내용을 입력하세요.'),
-            )
-          ],
+      body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              TextField(
+                onChanged: (String title) {
+                  this.title = title;
+                },
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(hintText: '제목을 입력하세요.'),
+              ),
+              Padding(padding: EdgeInsets.all(10)),
+              TextField(
+                onChanged: (String text) {
+                  this.text = text;
+                },
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
+                decoration: InputDecoration(hintText: '내용을 입력하세요.'),
+              )
+            ],
+          ),
         ),
       ),
     );

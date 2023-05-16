@@ -104,7 +104,7 @@ class Home extends GetView<HomeController> {
                   showAlertDialog(parentContext, memo.id);
                 },
                 child: Container(
-                  height: 90,
+                  height:  120,
                   margin: const EdgeInsets.only(
                       left: 20, top: 0, bottom: 15, right: 20),
                   padding: const EdgeInsets.only(
@@ -138,10 +138,11 @@ class Home extends GetView<HomeController> {
                         alignment: Alignment.topLeft,
                         child: Text(
                           memo!.text,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 15,
                           ),
-                          textAlign: TextAlign.left,
                         ),
                       ),
                     ],
