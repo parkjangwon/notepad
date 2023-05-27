@@ -21,6 +21,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: PRIMARY_COLOR,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          appBarTheme: const AppBarTheme(
+            color: PRIMARY_COLOR,
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.normal,
+            ),
+            centerTitle: true,
+            elevation: 0,
+          ),
         ),
         getPages: route(),
         initialRoute: Splash.routeName,

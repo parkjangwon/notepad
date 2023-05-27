@@ -16,23 +16,17 @@ class Home extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: PRIMARY_COLOR,
         title: const Text(
           "🐟 메모장 🐢",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
         ),
       ),
       body: Column(
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 20, top: 40, bottom: 20),
-            child: Container(
-              child: Text(
-                '메모 리스트',
-                style: TextStyle(fontSize: 36, color: PRIMARY_COLOR),
-              ),
-              alignment: Alignment.centerLeft,
+          const Padding(
+            padding: EdgeInsets.only(
+              left: 20,
+              top: 40,
+              bottom: 20,
             ),
           ),
           Expanded(
@@ -48,36 +42,39 @@ class Home extends GetView<HomeController> {
               context, MaterialPageRoute(builder: (context) => MemoWrite()));
         },
         tooltip: '+',
-        label: Text('메모 추가'),
-        icon: Icon(Icons.add),
+        label: const Text('메모 추가'),
+        icon: const Icon(Icons.add),
       ),
     );
   }
 
   void showAlertDialog(BuildContext context, String id) async {
     await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('️삭제 경고️️'),
-            content: Text('삭제된 메모는 복구되지 않습니다.'),
-            actions: [
-              TextButton(
-                  child: Text('삭제'),
-                  onPressed: () {
-                    Navigator.pop(context, '삭제');
-                    MemoService().deleteMemo(id);
-                    Get.offAllNamed(Home.routeName); // -_-.... 이러면 안된다!
-                  }),
-              TextButton(
-                  child: Text('취소'),
-                  onPressed: () {
-                    Navigator.pop(context, '취소');
-                  })
-            ],
-          );
-        });
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('️경고️️'),
+          content: const Text('삭제된 메모는 복구되지 않습니다.'),
+          actions: [
+            TextButton(
+              child: const Text('삭제'),
+              onPressed: () {
+                Navigator.pop(context, '삭제');
+                MemoService().deleteMemo(id);
+                Get.offAllNamed(Home.routeName); // -_-.... 이러면 안된다!
+              },
+            ),
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.pop(context, '취소');
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   Widget memoBuilder(BuildContext parentContext) {
@@ -104,18 +101,34 @@ class Home extends GetView<HomeController> {
                   showAlertDialog(parentContext, memo.id);
                 },
                 child: Container(
-                  height: 120,
+                  height: 130,
                   margin: const EdgeInsets.only(
-                      left: 20, top: 0, bottom: 15, right: 20),
+                    left: 20,
+                    top: 0,
+                    bottom: 15,
+                    right: 20,
+                  ),
                   padding: const EdgeInsets.only(
-                      left: 15, top: 0, bottom: 15, right: 15),
+                    left: 15,
+                    top: 0,
+                    bottom: 15,
+                    right: 15,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border.all(color: PRIMARY_COLOR, width: 1),
+                    border: Border.all(
+                      color: PRIMARY_COLOR,
+                      width: 1,
+                    ),
                     boxShadow: const [
-                      BoxShadow(color: PRIMARY_COLOR, blurRadius: 3),
+                      BoxShadow(
+                        color: PRIMARY_COLOR,
+                        blurRadius: 3,
+                      ),
                     ],
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(
+                      12,
+                    ),
                   ),
                   child: Column(
                     children: [

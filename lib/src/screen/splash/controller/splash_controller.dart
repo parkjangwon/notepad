@@ -11,7 +11,7 @@ class SplashController extends GetxController {
   }
 
   void _init() async {
-    Timer(const Duration(milliseconds: 200), route);
+    Timer(const Duration(milliseconds: 500), route);
   }
 
   void route() async {

@@ -24,15 +24,18 @@ class Splash extends GetView<SplashController> {
             ),
           ),
           Positioned(
-              left: 0,
-              right: 0,
-              bottom: 50,
-              child: Text(COPY_RIGHT,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.grey,
-                  )))
+            left: 0,
+            right: 0,
+            bottom: 50,
+            child: Text(
+              COPY_RIGHT,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.grey,
+              ),
+            ),
+          ),
         ],
       ),
     );

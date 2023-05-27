@@ -28,6 +28,6 @@ List<GetPage> route() {
         page: () => const MemoView(),
         binding: BindingsBuilder(() {
           Get.put(MemoViewController());
-        }))
+        })),
   ];
 }

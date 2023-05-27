@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:notepad/src/constants.dart';
+import 'package:notepad/src/screen/home/home.dart';
 import 'package:notepad/src/screen/memo/controller/memo_view_controller.dart';
 import 'package:notepad/src/screen/memo/dto/memo_dto.dart';
 import 'package:notepad/src/screen/memo/service/memo_service.dart';
@@ -14,18 +14,14 @@ class MemoView extends GetView<MemoViewController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: PRIMARY_COLOR,
         title: const Text(
           "🐟 메모 읽어요! 🐢",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.normal),
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () {
-              print('삭제 아이콘 클릭 : $controller.id');
-              //showAlertDialog();
+              showAlertDialog(context, controller.memo.id);
             },
           ),
           IconButton(
@@ -37,7 +33,10 @@ class MemoView extends GetView<MemoViewController> {
           )
         ],
       ),
-      body: Padding(padding: EdgeInsets.all(20), child: loadBuilder()),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: loadBuilder(),
+      ),
     );
   }
 
@@ -46,9 +45,7 @@ class MemoView extends GetView<MemoViewController> {
       future: MemoService().loadMemo(controller.memo.id),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Container(
-            child: Text('데이터를 불러올 수 없습니다.'),
-          );
+          return const Text('데이터를 불러올 수 없습니다.');
         } else {
           MemoDTO? memo = snapshot.data?[0];
           return Column(
@@ -56,19 +53,20 @@ class MemoView extends GetView<MemoViewController> {
             children: [
               Text(
                 memo!.title,
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                style:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
               ),
               Text(
                 '작성 시간 : ${memo.createdTime.split(".")[0]}',
-                style: TextStyle(fontSize: 11),
+                style: const TextStyle(fontSize: 11),
                 textAlign: TextAlign.end,
               ),
               Text(
                 '수정 시간 : ${memo.editedTime.split(".")[0]}',
-                style: TextStyle(fontSize: 11),
+                style: const TextStyle(fontSize: 11),
                 textAlign: TextAlign.end,
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(10),
               ),
               // Text(memo.text),
@@ -78,6 +76,35 @@ class MemoView extends GetView<MemoViewController> {
             ],
           );
         }
+      },
+    );
+  }
+
+  void showAlertDialog(BuildContext context, String id) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('️경고️️'),
+          content: const Text('삭제된 메모는 복구되지 않습니다.'),
+          actions: [
+            TextButton(
+              child: const Text('삭제'),
+              onPressed: () {
+                Navigator.pop(context, '삭제');
+                MemoService().deleteMemo(id);
+                Get.offAllNamed(Home.routeName);
+              },
+            ),
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.pop(context, '취소');
+              },
+            )
+          ],
+        );
       },
     );
   }
