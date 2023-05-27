@@ -52,7 +52,8 @@ class DatabaseHelper {
 
   Future<List<MemoDTO>> selectMemo(String id) async {
     final db = await database;
-    final List<Map<String, dynamic>> maps = await db.query(tableName, where: 'id = ?', whereArgs: [id]);
+    final List<Map<String, dynamic>> maps =
+        await db.query(tableName, where: 'id = ?', whereArgs: [id]);
 
     return List.generate(maps.length, (i) {
       return MemoDTO(

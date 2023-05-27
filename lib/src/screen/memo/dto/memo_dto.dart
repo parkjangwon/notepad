@@ -5,7 +5,12 @@ class MemoDTO {
   final String createdTime;
   final String editedTime;
 
-  MemoDTO({required this.id, required this.title, required this.text, required this.createdTime, required this.editedTime});
+  MemoDTO(
+      {required this.id,
+      required this.title,
+      required this.text,
+      required this.createdTime,
+      required this.editedTime});
 
   Map<String, dynamic> toMap() {
     return {

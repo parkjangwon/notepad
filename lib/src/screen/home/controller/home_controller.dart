@@ -18,6 +18,4 @@ class HomeController extends GetxController with WidgetsBindingObserver {
     super.onClose();
     WidgetsBinding.instance.removeObserver(this);
   }
-
-
 }

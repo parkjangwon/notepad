@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notepad/src/constants.dart';
 import 'package:notepad/src/screen/home/controller/home_controller.dart';
-import 'package:notepad/src/screen/memo/service/memo_service.dart';
 import 'package:notepad/src/screen/memo/dto/memo_dto.dart';
+import 'package:notepad/src/screen/memo/service/memo_service.dart';
 import 'package:notepad/src/screen/memo/view/memo_view.dart';
 import 'package:notepad/src/screen/memo/view/memo_write.dart';
 
@@ -104,7 +104,7 @@ class Home extends GetView<HomeController> {
                   showAlertDialog(parentContext, memo.id);
                 },
                 child: Container(
-                  height:  120,
+                  height: 120,
                   margin: const EdgeInsets.only(
                       left: 20, top: 0, bottom: 15, right: 20),
                   padding: const EdgeInsets.only(
