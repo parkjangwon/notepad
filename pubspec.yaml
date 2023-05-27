@@ -23,8 +23,6 @@ dependencies:
   lecle_downloads_path_provider: ^0.0.2+8   # android, ios 저장 경로
   path_provider: ^2.0.14                    # iOS의 애플리케이션 디렉토리 GET
   device_info_plus: ^9.0.1                  # 기기 정보
-  unique_device_id: ^0.1.2                  # 기기 고유 ID
-  ua_client_hints: ^1.1.3                   # User-Agent
 
 dev_dependencies:
   flutter_test:
