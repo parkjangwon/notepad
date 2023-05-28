@@ -80,7 +80,7 @@ class MemoWrite extends GetView<MemoWriteController> {
               child: const Text('추가'),
               onPressed: () {
                 Navigator.pop(context, '추가');
-                serivce.saveDB(text);
+                serivce.saveDB(title, text);
                 Get.offAllNamed(Home.routeName);
               },
             ),

@@ -27,7 +27,7 @@ class MemoService {
     return await dbHelper.selectMemo(id);
   }
 
-  Future<void> saveDB(String text) async {
+  Future<void> saveDB(String title, String text) async {
     DatabaseHelper helper = DatabaseHelper();
     var memo = MemoDTO(
         id: Encrypt.convertStr2Sha512(DateTime.now().toString()),
