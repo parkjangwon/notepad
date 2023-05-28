@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController with WidgetsBindingObserver {
+class MemoListController extends GetxController with WidgetsBindingObserver {
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     _init();
   }

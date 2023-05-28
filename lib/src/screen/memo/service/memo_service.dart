@@ -9,31 +9,33 @@ class MemoService {
 
   MemoService._init() {}
 
+  DatabaseHelper dbHelper = DatabaseHelper();
+
   Future<List<MemoDTO>> loadMemos() async {
-    DatabaseHelper dbHelper = DatabaseHelper();
     return await dbHelper.selectMemos();
   }
 
-  Future<void> deleteMemo(String id) async {
-    DatabaseHelper dbHelper = DatabaseHelper();
-    return await dbHelper.deleteMemo(id);
-  }
-
   Future<List<MemoDTO>> loadMemo(String id) async {
-    DatabaseHelper dbHelper = DatabaseHelper();
     return await dbHelper.selectMemo(id);
   }
 
-  Future<void> saveDB(String title, String text) async {
-    DatabaseHelper helper = DatabaseHelper();
-    var memo = MemoDTO(
-        id: Encrypt.convertStr2Sha512(DateTime.now().toString()),
-        title: title,
-        text: text,
-        createdTime: DateTime.now().toString(),
-        editedTime: DateTime.now().toString());
+  Future<void> deleteMemo(String id) async {
+    return await dbHelper.deleteMemo(id);
+  }
 
-    await helper.insertMemo(memo);
-    print('저장하기');
+  Future<void> updateMemo(MemoDTO memo) async {
+    return await dbHelper.updateMemo(memo);
+  }
+
+  Future<void> saveDB(String title, String text) async {
+    var memo = MemoDTO(
+      id: Encrypt.convertStr2Sha512(DateTime.now().toString()),
+      title: title,
+      text: text,
+      createdTime: DateTime.now().toString(),
+      editedTime: DateTime.now().toString(),
+    );
+
+    await dbHelper.insertMemo(memo);
   }
 }

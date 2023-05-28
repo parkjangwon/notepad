@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:notepad/src/screen/memo/controller/memo_write_controller.dart';
+import 'package:notepad/src/screen/memo/controller/memo_update_controller.dart';
+import 'package:notepad/src/screen/memo/dto/memo_dto.dart';
 import 'package:notepad/src/screen/memo/service/memo_service.dart';
 import 'package:notepad/src/screen/memo/view/memo_list.dart';
 
 // ignore: must_be_immutable
-class MemoWrite extends GetView<MemoWriteController> {
-  MemoWrite({super.key});
+class MemoUpdate extends GetView<MemoUpdateController> {
+  MemoUpdate({super.key});
 
-  static String routeName = "/memo/write";
+  static String routeName = "/memo/update";
 
   String title = '';
   String text = '';
@@ -20,7 +21,7 @@ class MemoWrite extends GetView<MemoWriteController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "🐟 메모 쓰기! 🐢",
+          "🐟 메모 수정하기! 🐢",
         ),
         actions: [
           IconButton(
@@ -38,6 +39,9 @@ class MemoWrite extends GetView<MemoWriteController> {
           child: Column(
             children: [
               TextField(
+                controller: TextEditingController(
+                  text: controller.memo.title,
+                ),
                 onChanged: (String title) {
                   this.title = title;
                 },
@@ -53,6 +57,9 @@ class MemoWrite extends GetView<MemoWriteController> {
                 padding: EdgeInsets.all(10),
               ),
               TextField(
+                controller: TextEditingController(
+                  text: controller.memo.text,
+                ),
                 onChanged: (String text) {
                   this.text = text;
                 },
@@ -74,12 +81,29 @@ class MemoWrite extends GetView<MemoWriteController> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('️확인'),
-          content: const Text('메모를 추가하시겠습니까?'),
+          content: const Text('메모를 수정하시겠습니까?'),
           actions: [
             TextButton(
-              child: const Text('추가'),
+              child: const Text('확인'),
               onPressed: () {
-                serivce.saveDB(title, text);
+                Navigator.pop(context, '수정');
+                MemoDTO update = MemoDTO(
+                  id: controller.memo.id,
+                  title: this.title,
+                  text: this.text,
+                  createdTime: controller.memo.createdTime,
+                  editedTime: DateTime.now().toString(),
+                );
+
+                if (this.title == '') {
+                  update.title = controller.memo.title;
+                }
+
+                if (this.text == '') {
+                  update.text = controller.memo.text;
+                }
+
+                serivce.updateMemo(update);
                 Get.offAllNamed(MemoList.routeName);
               },
             ),

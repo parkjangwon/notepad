@@ -1,9 +1,9 @@
 class MemoDTO {
   final String id;
-  final String title;
-  final String text;
+  late String title;
+  late String text;
   final String createdTime;
-  final String editedTime;
+  String editedTime;
 
   MemoDTO({
     required this.id,

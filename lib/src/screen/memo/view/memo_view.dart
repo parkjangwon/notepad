@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:notepad/src/screen/home/home.dart';
 import 'package:notepad/src/screen/memo/controller/memo_view_controller.dart';
 import 'package:notepad/src/screen/memo/dto/memo_dto.dart';
 import 'package:notepad/src/screen/memo/service/memo_service.dart';
+import 'package:notepad/src/screen/memo/view/memo_list.dart';
+import 'package:notepad/src/screen/memo/view/memo_update.dart';
 
 class MemoView extends GetView<MemoViewController> {
-  static String routeName = "/memo/view";
-
   const MemoView({super.key});
+
+  static String routeName = "/memo/view";
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +28,8 @@ class MemoView extends GetView<MemoViewController> {
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () {
-              print('수정');
-              // Get.toNamed(MemoEdit.routeName, arguments: controller.memo);
+              // TODO 특정 조건에서 화면 전환이 원할하지 않는 상황 조치 필요
+              Get.toNamed(MemoUpdate.routeName, arguments: controller.memo);
             },
           )
         ],
@@ -90,11 +91,11 @@ class MemoView extends GetView<MemoViewController> {
           content: const Text('삭제된 메모는 복구되지 않습니다.'),
           actions: [
             TextButton(
-              child: const Text('삭제'),
+              child: const Text('확인'),
               onPressed: () {
                 Navigator.pop(context, '삭제');
                 MemoService().deleteMemo(id);
-                Get.offAllNamed(Home.routeName);
+                Get.offAllNamed(MemoList.routeName);
               },
             ),
             TextButton(

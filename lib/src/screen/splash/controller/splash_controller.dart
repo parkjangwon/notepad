@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:notepad/src/screen/home/home.dart';
+import 'package:notepad/src/screen/memo/view/memo_list.dart';
 
 class SplashController extends GetxController {
   @override
@@ -15,7 +15,7 @@ class SplashController extends GetxController {
   }
 
   void route() async {
-    Get.offAllNamed(Home.routeName);
+    Get.offAllNamed(MemoList.routeName);
     return;
   }
 }

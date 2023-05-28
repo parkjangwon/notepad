@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:notepad/src/constants.dart';
-import 'package:notepad/src/screen/home/controller/home_controller.dart';
+import 'package:notepad/src/screen/memo/controller/memo_list_controller.dart';
 import 'package:notepad/src/screen/memo/dto/memo_dto.dart';
 import 'package:notepad/src/screen/memo/service/memo_service.dart';
 import 'package:notepad/src/screen/memo/view/memo_view.dart';
 import 'package:notepad/src/screen/memo/view/memo_write.dart';
 
-class Home extends GetView<HomeController> {
-  static String routeName = "/home";
+class MemoList extends GetView<MemoListController> {
+  const MemoList({super.key});
 
-  const Home({super.key});
+  static String routeName = "/list";
 
   @override
   Widget build(BuildContext context) {
@@ -48,35 +48,6 @@ class Home extends GetView<HomeController> {
     );
   }
 
-  void showAlertDialog(BuildContext context, String id) async {
-    await showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('️경고️️'),
-          content: const Text('삭제된 메모는 복구되지 않습니다.'),
-          actions: [
-            TextButton(
-              child: const Text('삭제'),
-              onPressed: () {
-                Navigator.pop(context, '삭제');
-                MemoService().deleteMemo(id);
-                Get.offAllNamed(Home.routeName); // -_-.... 이러면 안된다!
-              },
-            ),
-            TextButton(
-              child: const Text('취소'),
-              onPressed: () {
-                Navigator.pop(context, '취소');
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-
   Widget memoBuilder(BuildContext parentContext) {
     return FutureBuilder(
       builder: (context, snapshot) {
@@ -93,11 +64,9 @@ class Home extends GetView<HomeController> {
               MemoDTO? memo = snapshot.data?[index];
               return InkWell(
                 onTap: () {
-                  print('탭 클릭');
                   Get.toNamed(MemoView.routeName, arguments: memo);
                 },
                 onLongPress: () {
-                  print('길게 누름');
                   showAlertDialog(parentContext, memo.id);
                 },
                 child: Container(
@@ -167,6 +136,34 @@ class Home extends GetView<HomeController> {
         }
       },
       future: MemoService().loadMemos(),
+    );
+  }
+
+  void showAlertDialog(BuildContext context, String id) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('️경고️️'),
+          content: const Text('삭제된 메모는 복구되지 않습니다.'),
+          actions: [
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                MemoService().deleteMemo(id);
+                Get.offAllNamed(MemoList.routeName); // -_-.... 이러면 안된다!
+              },
+            ),
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.pop(context, '취소');
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }
