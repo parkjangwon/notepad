@@ -9,9 +9,6 @@ class MemoService {
 
   MemoService._init() {}
 
-  final String title = '';
-  final String deleteId = '';
-
   Future<List<MemoDTO>> loadMemos() async {
     DatabaseHelper dbHelper = DatabaseHelper();
     return await dbHelper.selectMemos();
