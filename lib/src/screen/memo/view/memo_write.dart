@@ -26,8 +26,7 @@ class MemoWrite extends GetView<MemoWriteController> {
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: () {
-              serivce.saveDB(title);
-              Get.offAllNamed(Home.routeName);
+              showAlertDialog(context);
             },
           )
         ],
@@ -65,6 +64,35 @@ class MemoWrite extends GetView<MemoWriteController> {
           ),
         ),
       ),
+    );
+  }
+
+  void showAlertDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('️확인'),
+          content: const Text('메모를 추가하시겠습니까?'),
+          actions: [
+            TextButton(
+              child: const Text('추가'),
+              onPressed: () {
+                Navigator.pop(context, '추가');
+                serivce.saveDB(text);
+                Get.offAllNamed(Home.routeName);
+              },
+            ),
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.pop(context, '취소');
+              },
+            )
+          ],
+        );
+      },
     );
   }
 }
