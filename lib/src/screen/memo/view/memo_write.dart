@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:notepad/src/screen/home/home.dart';
 import 'package:notepad/src/screen/memo/controller/memo_write_controller.dart';
+import 'package:notepad/src/screen/memo/service/memo_service.dart';
 
 // ignore: must_be_immutable
 class MemoWrite extends GetView<MemoWriteController> {
@@ -8,6 +10,8 @@ class MemoWrite extends GetView<MemoWriteController> {
   String text = '';
 
   static String routeName = "/memo/write";
+
+  MemoService serivce = MemoService();
 
   MemoWrite({super.key});
 
@@ -18,6 +22,15 @@ class MemoWrite extends GetView<MemoWriteController> {
         title: const Text(
           "🐟 메모 쓰기! 🐢",
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              serivce.saveDB(title);
+              Get.offAllNamed(Home.routeName);
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
