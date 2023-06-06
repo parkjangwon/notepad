@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:notepad/src/constants.dart';
 import 'package:notepad/src/screen/memo/controller/memo_list_controller.dart';
@@ -19,6 +20,21 @@ class MemoList extends GetView<MemoListController> {
         title: const Text(
           "🐟 메모장 🐢",
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.backup),
+            onPressed: () {
+              MemoService().backupDB();
+              showToast('다운로드 폴더\n 백업 파일 : "memos.db"');
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.restart_alt),
+            onPressed: () {
+              restoreDialog(context);
+            },
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -37,7 +53,6 @@ class MemoList extends GetView<MemoListController> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: PRIMARY_COLOR,
         onPressed: () {
-          print('[+ 메모 추가 액션버튼] 클릭');
           Navigator.push(
               context, MaterialPageRoute(builder: (context) => MemoWrite()));
         },
@@ -67,7 +82,7 @@ class MemoList extends GetView<MemoListController> {
                   Get.toNamed(MemoView.routeName, arguments: memo);
                 },
                 onLongPress: () {
-                  showAlertDialog(parentContext, memo.id);
+                  deleteDialog(parentContext, memo.id);
                 },
                 child: Container(
                   height: 130,
@@ -139,7 +154,17 @@ class MemoList extends GetView<MemoListController> {
     );
   }
 
-  void showAlertDialog(BuildContext context, String id) async {
+  void showToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        gravity: ToastGravity.TOP,
+        backgroundColor: PRIMARY_COLOR,
+        fontSize: 20,
+        textColor: Colors.white,
+        toastLength: Toast.LENGTH_SHORT);
+  }
+
+  void deleteDialog(BuildContext context, String id) async {
     await showDialog(
       context: context,
       barrierDismissible: false,
@@ -152,7 +177,36 @@ class MemoList extends GetView<MemoListController> {
               child: const Text('확인'),
               onPressed: () {
                 MemoService().deleteMemo(id);
-                Get.offAllNamed(MemoList.routeName); // -_-.... 이러면 안된다!
+                Get.offAllNamed(MemoList.routeName);
+              },
+            ),
+            TextButton(
+              child: const Text('취소'),
+              onPressed: () {
+                Navigator.pop(context, '취소');
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void restoreDialog(BuildContext context) async {
+    await showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('️경고️️'),
+          content: const Text('복구를 할 경우, 기존 데이터가 덮어써집니다.'),
+          actions: [
+            TextButton(
+              child: const Text('확인'),
+              onPressed: () {
+                MemoService().restoreDB();
+                showToast('데이터 복구 후, 앱을 재기동해주세요.\n 새로고침 기능은 나중에.. 🥲');
+                Get.offAllNamed(MemoList.routeName);
               },
             ),
             TextButton(

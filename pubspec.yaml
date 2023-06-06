@@ -23,6 +23,9 @@ dependencies:
   lecle_downloads_path_provider: ^0.0.2+8   # android, ios 저장 경로
   path_provider: ^2.0.14                    # iOS의 애플리케이션 디렉토리 GET
   device_info_plus: ^9.0.1                  # 기기 정보
+  fluttertoast: ^8.2.2                      # 토스트 메시지
+  encrypt: ^5.0.1                           # 암복호화
+  file_picker: ^5.3.1                       # 파일 선택 패키지
 
 dev_dependencies:
   flutter_test:
