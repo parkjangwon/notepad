@@ -1,6 +1,12 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:notepad/src/screen/memo/dto/memo_dto.dart';
 import 'package:notepad/src/screen/memo/repository/database_helper.dart';
 import 'package:notepad/src/screen/memo/util/encrypt.dart';
+import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:sqflite/sqflite.dart';
 
 class MemoService {
   static MemoService? _instance;
@@ -37,5 +43,43 @@ class MemoService {
     );
 
     await dbHelper.insertMemo(memo);
+  }
+
+  backupDB() async {
+    final dbFolder = await getDatabasesPath();
+    File source1 = File('$dbFolder/memos.db');
+
+    // TODO 현재는 안드로이드만 지원
+    Directory copyTo = Directory("storage/emulated/0/Download/");
+    if ((await copyTo.exists())) {
+      // print("Path exist");
+      var status = await Permission.storage.status;
+      if (!status.isGranted) {
+        await Permission.storage.request();
+      }
+    } else {
+      if (await Permission.storage.request().isGranted) {
+        // Either the permission was already granted before or the user just granted it.
+        await copyTo.create();
+      }
+    }
+
+    String newPath = "${copyTo.path}/memos.db";
+    await source1.copy(newPath);
+  }
+
+  restoreDB() async {
+    var databasesPath = await getDatabasesPath();
+    var dbPath = join(databasesPath, 'memos.db');
+
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      if (result.files.single.name == 'memos.db') {
+        File source = File(result.files.single.path!);
+        await source.copy(dbPath);
+      } else {
+        print('잘못된 파일입니다.');
+      }
+    }
   }
 }
