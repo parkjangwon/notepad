@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:notepad/src/screen/memo/dto/memo_dto.dart';
 import 'package:notepad/src/screen/memo/repository/database_helper.dart';
 import 'package:notepad/src/screen/memo/util/encrypt.dart';
@@ -72,10 +72,15 @@ class MemoService {
     var databasesPath = await getDatabasesPath();
     var dbPath = join(databasesPath, 'memos.db');
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-    if (result != null) {
-      if (result.files.single.name == 'memos.db') {
-        File source = File(result.files.single.path!);
+    final typeGroup = XTypeGroup(
+      label: 'databases',
+      extensions: ['db'],
+    );
+    
+    final file = await openFile(acceptedTypeGroups: [typeGroup]);
+    if (file != null) {
+      if (file.name == 'memos.db') {
+        File source = File(file.path);
         await source.copy(dbPath);
       } else {
         print('잘못된 파일입니다.');
