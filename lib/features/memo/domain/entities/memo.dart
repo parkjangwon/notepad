@@ -21,14 +21,44 @@ class Memo with _$Memo {
   factory Memo.fromJson(Map<String, dynamic> json) => _$MemoFromJson(json);
 
   factory Memo.fromSqlite(Map<String, dynamic> map) {
+    final now = DateTime.now();
+    final id = (map['id'] as String?) ?? const Uuid().v4();
+    final title = (map['title'] as String?) ?? '';
+    final content = (map['content'] as String?) ?? '';
+    String? richContent;
+    try {
+      final raw = map['rich_content'];
+      if (raw != null && raw is String && raw.isNotEmpty) {
+        // 실제로 앱에서 rich_content를 jsonDecode 등으로 파싱한다면, 여기서 파싱 테스트 가능
+        // 하지만 대부분 String 그대로 저장하므로, 일단 String으로만 처리
+        richContent = raw;
+      }
+    } catch (e) {
+      richContent = null;
+    }
+    final isEncrypted = map['is_encrypted'] == 1 || map['is_encrypted'] == true;
+    final createdAtStr = map['created_at'] as String?;
+    final updatedAtStr = map['updated_at'] as String?;
+    DateTime createdAt;
+    DateTime updatedAt;
+    try {
+      createdAt = createdAtStr != null ? DateTime.parse(createdAtStr) : now;
+    } catch (_) {
+      createdAt = now;
+    }
+    try {
+      updatedAt = updatedAtStr != null ? DateTime.parse(updatedAtStr) : createdAt;
+    } catch (_) {
+      updatedAt = createdAt;
+    }
     return Memo(
-      id: map['id'] as String,
-      title: map['title'] as String,
-      content: map['content'] as String,
-      richContent: map['rich_content'] as String?,
-      isEncrypted: map['is_encrypted'] == 1,
-      createdAt: DateTime.parse(map['created_at'] as String),
-      updatedAt: DateTime.parse(map['updated_at'] as String),
+      id: id,
+      title: title,
+      content: content,
+      richContent: richContent,
+      isEncrypted: isEncrypted,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
     );
   }
 

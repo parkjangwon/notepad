@@ -13,7 +13,16 @@ class MemoRepositoryImpl implements MemoRepository {
   Future<Either<Failure, List<Memo>>> getAllMemos() async {
     try {
       final memos = await localDataSource.getAllMemos();
-      return Right(memos.map((json) => Memo.fromSqlite(json)).toList());
+      List<Memo> memoList = [];
+      for (final json in memos) {
+        try {
+          memoList.add(Memo.fromSqlite(json));
+        } catch (e) {
+          // row별 파싱 실패 로그
+          print('Memo 파싱 실패: $json, error: $e');
+        }
+      }
+      return Right(memoList);
     } catch (e) {
       return Left(CacheFailure());
     }

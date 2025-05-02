@@ -61,7 +61,7 @@ class MemoLocalDataSource {
           // 백업된 데이터를 새로운 테이블에 복사
           await db.execute('''
             INSERT INTO $tableName (id, title, content, created_at, updated_at, is_encrypted)
-            SELECT id, title, content, createdAt, updatedAt, isEncrypted
+            SELECT id, title, content, created_at, updated_at, is_encrypted
             FROM $backupTableName
           ''');
           
@@ -103,5 +103,13 @@ class MemoLocalDataSource {
       where: 'id = ?',
       whereArgs: [id],
     );
+  }
+
+  Future<void> reopenDatabase() async {
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
+    await database; // 재오픈
   }
 } 

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' hide Text;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:notepad/features/memo/domain/entities/memo.dart';
 import 'package:notepad/features/memo/presentation/pages/memo_write_page.dart';
 import 'package:notepad/features/memo/presentation/providers/memo_providers.dart';
@@ -53,6 +54,10 @@ class _MemoDetailPageState extends ConsumerState<MemoDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final dateFormat = DateFormat('yyyy년 MM월 dd일');
+    final createdAt = dateFormat.format(_currentMemo.createdAt);
+    final updatedAt = dateFormat.format(_currentMemo.updatedAt);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(_currentMemo.title),
@@ -92,13 +97,29 @@ class _MemoDetailPageState extends ConsumerState<MemoDetailPage> {
           ),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: QuillEditor.basic(
-          controller: _quillController,
-          focusNode: FocusNode(),
-          scrollController: ScrollController(),
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              '작성: $createdAt\n수정: $updatedAt',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Colors.grey,
+                  ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: QuillEditor.basic(
+                controller: _quillController,
+                focusNode: FocusNode(),
+                scrollController: ScrollController(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
