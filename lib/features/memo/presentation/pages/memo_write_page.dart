@@ -90,9 +90,7 @@ class _MemoWritePageState extends ConsumerState<MemoWritePage> {
                 isEncrypted: false,
               );
 
-              final result = widget.memo == null
-                  ? await ref.read(memoRepositoryProvider).saveMemo(memo)
-                  : await ref.read(memoRepositoryProvider).saveMemo(memo);
+              final result = await ref.read(memoRepositoryProvider).saveMemo(memo);
 
               result.fold(
                 (failure) => ScaffoldMessenger.of(context).showSnackBar(

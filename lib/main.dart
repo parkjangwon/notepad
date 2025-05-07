@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:notepad/core/constants.dart';
 import 'package:notepad/core/di/injection.dart';
-import 'package:notepad/features/memo/presentation/pages/memo_list_page.dart';
 import 'package:notepad/features/memo/presentation/pages/splash_page.dart';
 
 void main() async {
